@@ -105,12 +105,12 @@ bitflags! {
 
         const BlockScoped = Self::BlockScopedVariable.bits() | Self::Enum.bits() | Self::Class.bits();
 
-        const Value = Self::Variable.bits() | Self::Class.bits() | Self::Enum.bits() | Self::EnumMember.bits() | Self::ValueModule.bits();
+        const Value = Self::Variable.bits() | Self::Function.bits() | Self::Class.bits() | Self::Enum.bits() | Self::EnumMember.bits() | Self::ValueModule.bits();
         const Type =  Self::Class.bits() | Self::Interface.bits() | Self::Enum.bits() | Self::EnumMember.bits() | Self::TypeLiteral.bits() | Self::TypeParameter.bits()  |  Self::TypeAlias.bits();
 
         /// Variables can be redeclared, but can not redeclare a block-scoped declaration with the
         /// same name, or any other value that is not a variable, e.g. ValueModule or Class
-        const FunctionScopedVariableExcludes = Self::Value.bits() - Self::FunctionScopedVariable.bits();
+        const FunctionScopedVariableExcludes = Self::Value.bits() & !Self::FunctionScopedVariable.bits();
 
         /// Block-scoped declarations are not allowed to be re-declared
         /// they can not merge with anything in the value space
